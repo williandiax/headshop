@@ -90,6 +90,23 @@
   }
   .card-form .full{ grid-column:1 / -1; }
   [hidden]{ display:none !important; }
+
+  /* ---------- responsive ---------- */
+  .table-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+
+  @media (max-width:900px){
+    .stat-grid{ grid-template-columns:repeat(2,1fr); }
+    .card-form{ grid-template-columns:1fr; }
+  }
+  @media (max-width:640px){
+    header{ padding:14px 18px; flex-wrap:wrap; gap:10px; }
+    .wrap{ padding:20px 18px; }
+    .login-box{ margin:40px auto; padding:26px 22px; }
+    .stat-grid{ grid-template-columns:1fr; gap:12px; }
+    .stat-card .num{ font-size:24px; }
+    table{ min-width:560px; }
+    .row-actions{ flex-wrap:wrap; }
+  }
 </style>
 </head>
 <body>
@@ -117,10 +134,12 @@
   <div class="top-products" id="topProducts"></div>
 
   <div class="section-title">Vendas</div>
-  <table style="margin-bottom:40px;">
-    <thead><tr><th>Produto</th><th>Valor</th><th>Data</th><th>Status</th><th></th></tr></thead>
-    <tbody id="ordersTable"></tbody>
-  </table>
+  <div class="table-scroll" style="margin-bottom:40px;">
+    <table>
+      <thead><tr><th>Produto</th><th>Valor</th><th>Data</th><th>Status</th><th></th></tr></thead>
+      <tbody id="ordersTable"></tbody>
+    </table>
+  </div>
 
   <div class="section-title" id="formTitle">Adicionar produto</div>
   <div class="card-form">
@@ -157,10 +176,12 @@
   </div>
 
   <div class="section-title">Produtos cadastrados</div>
-  <table>
-    <thead><tr><th>Produto</th><th>Categoria</th><th>Preço</th><th>Status</th><th></th></tr></thead>
-    <tbody id="productTable"></tbody>
-  </table>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Produto</th><th>Categoria</th><th>Preço</th><th>Status</th><th></th></tr></thead>
+      <tbody id="productTable"></tbody>
+    </table>
+  </div>
 
   <div class="section-title">Segurança</div>
   <div class="card-form" style="grid-template-columns:1fr;">
