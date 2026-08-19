@@ -195,7 +195,8 @@ async function api(path, options = {}) {
       ...(options.headers || {}),
     },
   });
-  if (res.status === 401) { logout(); throw new Error("Sessão expirada."); }
+  const hadToken = !!token();
+  if (res.status === 401 && hadToken) { logout(); throw new Error("Sessão expirada."); }
   if (!res.ok) { const body = await res.json().catch(()=>({})); throw new Error(body.error || `Erro ${res.status}`); }
   if (res.status === 204) return null;
   return res.json();
@@ -213,7 +214,7 @@ async function login(){
     document.getElementById("dashboardView").hidden = false;
     await loadEverything();
   }catch(e){
-    errEl.textContent = "Email ou senha incorretos.";
+    errEl.textContent = e.message || "Não foi possível entrar. Tente novamente.";
   }
 }
 
