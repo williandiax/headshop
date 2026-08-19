@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mary Jane Head Shop — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #f6efc2;
+    --cream-deep: #efe4a4;
+    --green-deep: #1d3a24;
+    --green: #2c5936;
+    --olive: #7d9a53;
+    --orange: #e07f1d;
+    --orange-deep: #c3670f;
+    --ink: #1a2b18;
+    --paper: #fffdf2;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{ background:var(--cream); color:var(--ink); font-family:'Work Sans', sans-serif; }
+  h1,h2,h3{ font-family:'Baloo 2', sans-serif; font-weight:700; }
+  a{ color:inherit; }
+  .wrap{ max-width:1000px; margin:0 auto; padding:32px; }
+
+  .wordmark{ display:flex; flex-direction:column; line-height:.82; }
+  .wordmark .top{
+    font-family:'Baloo 2'; font-weight:800; color:var(--orange); font-size:22px;
+    text-shadow: 2px 0 0 var(--green-deep),-2px 0 0 var(--green-deep),0 2px 0 var(--green-deep),
+      0 -2px 0 var(--green-deep),2px 2px 0 var(--green-deep),-2px -2px 0 var(--green-deep),
+      -2px 2px 0 var(--green-deep),2px -2px 0 var(--green-deep);
+    letter-spacing:.5px; transform:skewX(-3deg);
+  }
+  .wordmark .bottom{ font-family:'Baloo 2'; font-weight:700; color:var(--green-deep); letter-spacing:4px; text-transform:uppercase; font-size:8px; margin-top:3px; }
+
+  header{ display:flex; align-items:center; justify-content:space-between; padding:18px 32px; border-bottom:3px solid var(--green-deep); background:var(--paper); }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:10px 20px; border-radius:100px;
+    font-weight:700; font-family:'Baloo 2'; font-size:14px; border:2px solid var(--green-deep);
+    cursor:pointer; background:transparent; color:var(--green-deep); transition:all .15s ease;
+  }
+  .btn:hover{ background:var(--green-deep); color:var(--cream); }
+  .btn-solid{ background:var(--orange); color:var(--paper); border-color:var(--orange-deep); }
+  .btn-solid:hover{ background:var(--orange-deep); }
+
+  .login-box{
+    max-width:380px; margin:100px auto; background:var(--paper); border:3px solid var(--green-deep);
+    border-radius:20px; padding:36px; text-align:center;
+  }
+  .login-box input{
+    width:100%; padding:12px 14px; border-radius:10px; border:2px solid var(--olive);
+    font-size:15px; margin:10px 0; font-family:'Work Sans';
+  }
+  .error-msg{ color:#b23a3a; font-size:13px; margin-top:10px; min-height:16px; }
+
+  .stat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:36px; }
+  .stat-card{ background:var(--paper); border:3px solid var(--green-deep); border-radius:16px; padding:20px; }
+  .stat-card.highlight{ background:var(--green-deep); border-color:var(--green-deep); }
+  .stat-card .num{ font-family:'Baloo 2'; font-size:28px; color:var(--orange-deep); }
+  .stat-card.highlight .num{ color:var(--orange); }
+  .stat-card .label{ font-size:12px; color:var(--green); font-weight:600; margin-top:4px; }
+  .stat-card.highlight .label{ color:var(--cream); }
+
+  .section-title{ font-size:20px; color:var(--green-deep); margin:36px 0 16px; }
+  .top-products{ display:flex; flex-direction:column; gap:8px; }
+  .top-row{ display:flex; justify-content:space-between; font-size:14px; background:var(--paper); border:2px solid var(--olive); border-radius:10px; padding:10px 14px; }
+
+  table{ width:100%; border-collapse:collapse; }
+  th{ text-align:left; font-size:12px; text-transform:uppercase; color:var(--olive); padding:8px 10px; }
+  td{ background:var(--paper); padding:10px; font-size:13.5px; border-top:1px solid var(--cream-deep); }
+  tr td:first-child{ border-radius:10px 0 0 10px; }
+  tr td:last-child{ border-radius:0 10px 10px 0; }
+  .row-actions{ display:flex; gap:8px; }
+  .btn-mini{ padding:5px 12px; border-radius:100px; font-size:12px; font-weight:700; font-family:'Baloo 2'; cursor:pointer; border:2px solid var(--green-deep); background:transparent; color:var(--green-deep); }
+  .btn-mini.danger{ border-color:#b23a3a; color:#b23a3a; }
+  .btn-mini:hover{ opacity:.7; }
+  .status-pill{ padding:4px 10px; border-radius:100px; font-size:11px; font-weight:700; text-transform:uppercase; }
+  .status-pendente{ background:#f3d9a0; color:#7a4e00; }
+  .status-confirmada{ background:#c9e3bd; color:#1d3a24; }
+  .status-cancelada{ background:#e8c4c4; color:#7a1d1d; }
+
+  .card-form{
+    background:var(--paper); border:3px solid var(--green-deep); border-radius:18px; padding:24px;
+    display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:30px;
+  }
+  .card-form label{ font-size:12.5px; font-weight:700; color:var(--green-deep); display:block; margin-bottom:5px; }
+  .card-form input, .card-form select, .card-form textarea{
+    width:100%; padding:10px 12px; border-radius:8px; border:2px solid var(--olive); font-family:'Work Sans'; font-size:14px;
+  }
+  .card-form .full{ grid-column:1 / -1; }
+  [hidden]{ display:none !important; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wordmark"><span class="top">Mary Jane</span><span class="bottom">Admin</span></div>
+  <a class="btn" href="index.html">Ver site</a>
+</header>
+
+<div id="loginView" class="wrap">
+  <div class="login-box">
+    <h2 style="margin-bottom:6px; color:var(--green-deep);">Acesso restrito</h2>
+    <p style="font-size:13.5px; color:var(--green);">Entre com seu email e senha da equipe.</p>
+    <input id="emailInput" type="email" placeholder="Email" value="admin@maryjaneheadshop.com.br">
+    <input id="passwordInput" type="password" placeholder="Senha" onkeydown="if(event.key==='Enter')login()">
+    <button class="btn btn-solid" style="width:100%; justify-content:center; margin-top:6px;" onclick="login()">Entrar</button>
+    <div id="loginError" class="error-msg"></div>
+  </div>
+</div>
+
+<div id="dashboardView" class="wrap" hidden>
+  <div class="stat-grid" id="statGrid"></div>
+
+  <div class="section-title">Produtos mais vistos</div>
+  <div class="top-products" id="topProducts"></div>
+
+  <div class="section-title">Vendas</div>
+  <table style="margin-bottom:40px;">
+    <thead><tr><th>Produto</th><th>Valor</th><th>Data</th><th>Status</th><th></th></tr></thead>
+    <tbody id="ordersTable"></tbody>
+  </table>
+
+  <div class="section-title" id="formTitle">Adicionar produto</div>
+  <div class="card-form">
+    <input type="hidden" id="pId">
+    <div>
+      <label>Nome</label>
+      <input id="pName" placeholder="Ex: Seda Raw Classic King Size">
+    </div>
+    <div>
+      <label>Categoria</label>
+      <select id="pCategory">
+        <option value="Tabacaria">Tabacaria</option>
+        <option value="Acessórios">Acessórios</option>
+        <option value="Lifestyle">Lifestyle</option>
+        <option value="Presentes">Presentes</option>
+      </select>
+    </div>
+    <div>
+      <label>Preço (R$)</label>
+      <input id="pPrice" type="number" step="0.01" placeholder="Ex: 29.90">
+    </div>
+    <div>
+      <label>Ícone (emoji)</label>
+      <input id="pIcon" placeholder="Ex: 🔥" maxlength="4">
+    </div>
+    <div class="full">
+      <label>Descrição curta</label>
+      <textarea id="pDesc" rows="2" placeholder="Ex: Papel king size vegano, queima uniforme."></textarea>
+    </div>
+    <div class="full" style="display:flex; gap:10px;">
+      <button class="btn btn-solid" onclick="saveProduct()">Salvar produto</button>
+      <button class="btn" onclick="resetForm()">Limpar</button>
+    </div>
+  </div>
+
+  <div class="section-title">Produtos cadastrados</div>
+  <table>
+    <thead><tr><th>Produto</th><th>Categoria</th><th>Preço</th><th>Status</th><th></th></tr></thead>
+    <tbody id="productTable"></tbody>
+  </table>
+
+  <div class="section-title">Segurança</div>
+  <div class="card-form" style="grid-template-columns:1fr;">
+    <div>
+      <label>Trocar senha do painel</label>
+      <input id="newPasswordInput" type="password" placeholder="Nova senha (mín. 6 caracteres)">
+    </div>
+    <div>
+      <button class="btn" onclick="changePassword()">Atualizar senha</button>
+      <button class="btn" style="margin-left:10px;" onclick="logout()">Sair</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API_BASE = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
+  ? "http://localhost:4000"   // rodando local (server.js)
+  : "";                        // em produção no Vercel, API e site ficam no mesmo domínio
+const TOKEN_KEY = "mj_admin_token";
+let products = [];
+let editingId = null;
+
+function money(v){ return "R$ " + Number(v).toFixed(2).replace(".", ","); }
+function token(){ return localStorage.getItem(TOKEN_KEY); }
+
+async function api(path, options = {}) {
+  const res = await fetch(`${API_BASE}${path}`, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(token() ? { Authorization: `Bearer ${token()}` } : {}),
+      ...(options.headers || {}),
+    },
+  });
+  if (res.status === 401) { logout(); throw new Error("Sessão expirada."); }
+  if (!res.ok) { const body = await res.json().catch(()=>({})); throw new Error(body.error || `Erro ${res.status}`); }
+  if (res.status === 204) return null;
+  return res.json();
+}
+
+async function login(){
+  const email = document.getElementById("emailInput").value.trim();
+  const password = document.getElementById("passwordInput").value;
+  const errEl = document.getElementById("loginError");
+  errEl.textContent = "";
+  try{
+    const { token: t } = await api("/api/auth/login", { method:"POST", body: JSON.stringify({ email, password }) });
+    localStorage.setItem(TOKEN_KEY, t);
+    document.getElementById("loginView").hidden = true;
+    document.getElementById("dashboardView").hidden = false;
+    await loadEverything();
+  }catch(e){
+    errEl.textContent = "Email ou senha incorretos.";
+  }
+}
+
+function logout(){
+  localStorage.removeItem(TOKEN_KEY);
+  document.getElementById("dashboardView").hidden = true;
+  document.getElementById("loginView").hidden = false;
+}
+
+async function changePassword(){
+  const val = document.getElementById("newPasswordInput").value.trim();
+  if(val.length < 6){ alert("Use uma senha com pelo menos 6 caracteres."); return; }
+  try{
+    await api("/api/auth/password", { method:"PUT", body: JSON.stringify({ newPassword: val }) });
+    document.getElementById("newPasswordInput").value = "";
+    alert("Senha atualizada!");
+  }catch(e){ alert("Não foi possível trocar a senha: " + e.message); }
+}
+
+async function loadEverything(){
+  await Promise.all([loadProducts(), renderMetrics(), renderOrders()]);
+}
+
+async function loadProducts(){
+  products = await api("/api/admin/products");
+  renderProductTable();
+}
+
+function renderProductTable(){
+  document.getElementById("productTable").innerHTML = products.map(p => `
+    <tr>
+      <td>${p.icon || "🌿"} ${p.name}</td>
+      <td>${p.category}</td>
+      <td>${money(p.price)}</td>
+      <td>${p.active ? "Ativo" : "Inativo"}</td>
+      <td class="row-actions">
+        <button class="btn-mini" onclick="editProduct('${p.id}')">Editar</button>
+        <button class="btn-mini danger" onclick="deleteProduct('${p.id}')">Excluir</button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+async function renderMetrics(){
+  const m = await api("/api/metrics");
+  document.getElementById("statGrid").innerHTML = `
+    <div class="stat-card highlight"><div class="num">${money(m.revenueConfirmed)}</div><div class="label">Faturamento confirmado</div></div>
+    <div class="stat-card"><div class="num">${m.pageviews}</div><div class="label">Visitas no site</div></div>
+    <div class="stat-card"><div class="num">${m.orders.total}</div><div class="label">Pedidos registrados</div></div>
+    <div class="stat-card"><div class="num">${m.orders.pendente}</div><div class="label">Pedidos pendentes</div></div>
+  `;
+  document.getElementById("topProducts").innerHTML = m.topProducts.map(p =>
+    `<div class="top-row"><span>${p.icon || "🌿"} ${p.name}</span><span>${p.views} visualizações</span></div>`
+  ).join("") || `<div class="top-row"><span>Sem dados ainda</span></div>`;
+}
+
+async function renderOrders(){
+  const orders = await api("/api/orders");
+  document.getElementById("ordersTable").innerHTML = orders.slice(0,30).map(o => `
+    <tr>
+      <td>${o.product_name}</td>
+      <td>${money(o.price)}</td>
+      <td>${new Date(o.created_at).toLocaleDateString('pt-BR')}</td>
+      <td><span class="status-pill status-${o.status}">${o.status}</span></td>
+      <td class="row-actions">
+        ${o.status !== "confirmada" ? `<button class="btn-mini" onclick="updateOrderStatus('${o.id}','confirmada')">Confirmar</button>` : ""}
+        ${o.status !== "cancelada" ? `<button class="btn-mini danger" onclick="updateOrderStatus('${o.id}','cancelada')">Cancelar</button>` : ""}
+      </td>
+    </tr>
+  `).join("") || `<tr><td colspan="5" style="text-align:center; color:var(--olive);">Nenhuma venda registrada ainda</td></tr>`;
+}
+
+async function updateOrderStatus(id, status){
+  await api(`/api/orders/${id}`, { method:"PUT", body: JSON.stringify({ status }) });
+  await renderOrders();
+  await renderMetrics();
+}
+
+function editProduct(id){
+  const p = products.find(x => x.id === id);
+  if(!p) return;
+  editingId = id;
+  document.getElementById("pId").value = p.id;
+  document.getElementById("pName").value = p.name;
+  document.getElementById("pCategory").value = p.category;
+  document.getElementById("pPrice").value = p.price;
+  document.getElementById("pIcon").value = p.icon || "";
+  document.getElementById("pDesc").value = p.description || "";
+  document.getElementById("formTitle").textContent = "Editar produto";
+  document.getElementById("formTitle").scrollIntoView({behavior:"smooth"});
+}
+
+function resetForm(){
+  editingId = null;
+  document.getElementById("pId").value = "";
+  document.getElementById("pName").value = "";
+  document.getElementById("pCategory").value = "Tabacaria";
+  document.getElementById("pPrice").value = "";
+  document.getElementById("pIcon").value = "";
+  document.getElementById("pDesc").value = "";
+  document.getElementById("formTitle").textContent = "Adicionar produto";
+}
+
+async function saveProduct(){
+  const name = document.getElementById("pName").value.trim();
+  const category = document.getElementById("pCategory").value;
+  const price = parseFloat(document.getElementById("pPrice").value);
+  const icon = document.getElementById("pIcon").value.trim();
+  const description = document.getElementById("pDesc").value.trim();
+
+  if(!name || isNaN(price)){ alert("Preencha ao menos o nome e o preço."); return; }
+
+  try{
+    if(editingId){
+      await api(`/api/products/${editingId}`, { method:"PUT", body: JSON.stringify({ name, category, price, icon, description }) });
+    } else {
+      await api("/api/products", { method:"POST", body: JSON.stringify({ name, category, price, icon, description }) });
+    }
+    resetForm();
+    await loadProducts();
+    await renderMetrics();
+  }catch(e){ alert("Erro ao salvar: " + e.message); }
+}
+
+async function deleteProduct(id){
+  if(!confirm("Excluir esse produto do catálogo?")) return;
+  await api(`/api/products/${id}`, { method:"DELETE" });
+  await loadProducts();
+  await renderMetrics();
+}
+
+// se já tiver token salvo, tenta ir direto pro dashboard
+(async function boot(){
+  if(token()){
+    document.getElementById("loginView").hidden = true;
+    document.getElementById("dashboardView").hidden = false;
+    try{ await loadEverything(); }
+    catch(e){ logout(); }
+  }
+})();
+</script>
+
+</body>
+</html>

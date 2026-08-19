@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mary Jane Head Shop — Cultive seu ritual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #f6efc2;
+    --cream-deep: #efe4a4;
+    --green-deep: #1d3a24;
+    --green: #2c5936;
+    --green-mid: #3f7a4b;
+    --olive: #7d9a53;
+    --orange: #e07f1d;
+    --orange-deep: #c3670f;
+    --ink: #1a2b18;
+    --paper: #fffdf2;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3,.display{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    line-height:1.05;
+    letter-spacing:.5px;
+  }
+
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+  img{max-width:100%; display:block;}
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- pattern texture strip ---------- */
+  .pattern-strip{
+    height:64px;
+    background-image:url('assets/pattern.png');
+    background-size:420px;
+    background-repeat:repeat;
+    border-top:3px solid var(--green-deep);
+    border-bottom:3px solid var(--green-deep);
+  }
+  .pattern-strip.flip{ filter: hue-rotate(180deg) saturate(0); opacity:.9; }
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:var(--cream);
+    border-bottom:3px solid var(--green-deep);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 32px;
+    max-width:1180px; margin:0 auto;
+  }
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand-name{font-family:'Baloo 2'; font-size:20px; color:var(--green-deep); display:none;}
+
+  /* ---------- wordmark (based on the logo lettering) ---------- */
+  .wordmark{ display:flex; flex-direction:column; line-height:.82; }
+  .wordmark .top{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    color:var(--orange);
+    text-shadow:
+      2px 0 0 var(--green-deep),
+      -2px 0 0 var(--green-deep),
+      0 2px 0 var(--green-deep),
+      0 -2px 0 var(--green-deep),
+      2px 2px 0 var(--green-deep),
+      -2px -2px 0 var(--green-deep),
+      -2px 2px 0 var(--green-deep),
+      2px -2px 0 var(--green-deep);
+    letter-spacing:.5px;
+    transform:skewX(-3deg);
+  }
+  .wordmark .bottom{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    color:var(--green-deep);
+    letter-spacing:5px;
+    text-transform:uppercase;
+    margin-top:3px;
+  }
+  .wordmark-sm .top{ font-size:22px; }
+  .wordmark-sm .bottom{ font-size:8px; letter-spacing:4px; }
+
+  .wordmark-lg{ align-items:center; text-align:center; }
+  .wordmark-lg .top{ font-size:clamp(38px,6vw,64px); }
+  .wordmark-lg .bottom{ font-size:clamp(11px,1.4vw,16px); letter-spacing:9px; }
+
+  .wordmark-footer .top{
+    color:var(--orange);
+    text-shadow:
+      2px 0 0 var(--cream),
+      -2px 0 0 var(--cream),
+      0 2px 0 var(--cream),
+      0 -2px 0 var(--cream),
+      2px 2px 0 var(--cream),
+      -2px -2px 0 var(--cream),
+      -2px 2px 0 var(--cream),
+      2px -2px 0 var(--cream);
+  }
+  .wordmark-footer .bottom{ color:var(--cream); }
+  .wordmark-footer .top{ font-size:24px; }
+  .wordmark-footer .bottom{ font-size:9px; letter-spacing:4px; }
+  nav.links{display:flex; gap:10px; font-weight:600; font-size:14px;}
+  .nav-btn{
+    padding:9px 16px; border-radius:100px; color:var(--green-deep);
+    border:2px solid transparent; transition:all .15s ease;
+  }
+  .nav-btn:hover{ border-color:var(--green-deep); background:var(--paper); }
+  .nav-cta{
+    display:flex; gap:12px; align-items:center;
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:11px 22px;
+    border-radius:100px;
+    font-weight:700;
+    font-family:'Baloo 2';
+    font-size:15px;
+    border:3px solid var(--green-deep);
+    transition:transform .18s ease, box-shadow .18s ease;
+    white-space:nowrap;
+  }
+  .btn:hover{ transform:translate(-2px,-2px); box-shadow:4px 4px 0 var(--green-deep); }
+  .btn-solid{ background:var(--orange); color:var(--paper); border-color:var(--orange-deep); }
+  .btn-solid:hover{ box-shadow:4px 4px 0 var(--orange-deep); }
+  .btn-outline{ background:transparent; color:var(--green-deep); }
+  .menu-toggle{display:none;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:86px 32px 70px;
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:40px;
+    align-items:center;
+    max-width:1180px;
+    margin:0 auto;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-weight:700; font-size:13px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--green-mid);
+    margin-bottom:18px;
+  }
+  .eyebrow .dot{width:8px; height:8px; border-radius:50%; background:var(--orange);}
+  .hero h1{
+    font-size:clamp(40px, 5.4vw, 72px);
+    color:var(--green-deep);
+  }
+  .hero h1 span{color:var(--orange);}
+  .hero p.lead{
+    margin-top:22px;
+    font-size:19px;
+    max-width:480px;
+    color:var(--green);
+    font-weight:500;
+    line-height:1.55;
+  }
+  .hero-ctas{ margin-top:34px; display:flex; gap:16px; flex-wrap:wrap; }
+  .hero-art{
+    position:relative;
+    aspect-ratio:1/1;
+    background:var(--paper);
+    border:4px solid var(--green-deep);
+    border-radius:32px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:10px 10px 0 var(--olive);
+    overflow:hidden;
+  }
+  .hero-art img{ width:78%; }
+  .hero-art::before{
+    content:'';
+    position:absolute; inset:0;
+    background-image:url('assets/pattern.png');
+    background-size:260px;
+    opacity:.14;
+  }
+
+  /* ---------- section shell ---------- */
+  section{padding:88px 0;}
+  .section-head{ max-width:600px; margin-bottom:52px; }
+  .section-head .eyebrow{ color:var(--orange-deep); }
+  .section-head h2{ font-size:clamp(30px,4vw,44px); color:var(--green-deep); }
+  .section-head p{ margin-top:14px; font-size:17px; color:var(--green); line-height:1.6; }
+
+  /* ---------- categories ---------- */
+  .cat-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:22px;
+  }
+  .cat-card{
+    background:var(--paper);
+    border:3px solid var(--green-deep);
+    border-radius:20px;
+    padding:28px 22px;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .cat-card:hover{ transform:translateY(-6px); box-shadow:6px 8px 0 var(--olive); }
+  .cat-num{
+    font-family:'Baloo 2'; font-size:13px; color:var(--orange-deep); font-weight:700; letter-spacing:1px;
+  }
+  .cat-card h3{ margin-top:14px; font-size:22px; color:var(--green-deep); }
+  .cat-card p{ margin-top:10px; font-size:14.5px; color:var(--green); line-height:1.55; }
+
+  /* ---------- how to buy ---------- */
+  .how-wrap{
+    background:var(--green-deep);
+    padding:90px 0;
+    color:var(--cream);
+    position:relative;
+  }
+  .how-wrap .section-head h2{ color:var(--cream); }
+  .how-wrap .section-head p{ color:#cfe0c9; }
+  .how-wrap .eyebrow{ color:#f3c88a; }
+  .steps{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:26px;
+  }
+  .step{
+    background:rgba(255,255,255,.05);
+    border:2px solid rgba(255,255,255,.25);
+    border-radius:18px;
+    padding:30px 26px;
+  }
+  .step-mark{
+    width:40px; height:40px; border-radius:50%;
+    background:var(--orange);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Baloo 2'; font-weight:700; color:var(--green-deep);
+    margin-bottom:18px;
+  }
+  .step h3{ font-family:'Baloo 2'; font-size:19px; margin-bottom:10px; }
+  .step p{ font-size:14.5px; color:#d9e6d3; line-height:1.55; }
+
+  /* ---------- biblioteca cannabica ---------- */
+  .lib-grid{
+    display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:22px;
+  }
+  .lib-card{
+    border-radius:20px;
+    padding:30px 26px;
+    border:3px solid var(--green-deep);
+    background:var(--paper);
+    display:flex; flex-direction:column; justify-content:space-between;
+    min-height:230px;
+  }
+  .lib-card.feature{
+    background:var(--orange);
+    color:var(--paper);
+    border-color:var(--orange-deep);
+  }
+  .lib-tag{
+    font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+    opacity:.75; margin-bottom:14px;
+  }
+  .lib-card h3{ font-size:21px; color:inherit; font-family:'Baloo 2'; }
+  .lib-card p{ margin-top:12px; font-size:14.5px; line-height:1.55; color:inherit; opacity:.9; }
+  .lib-more{ margin-top:20px; font-weight:700; font-size:14px; }
+
+  /* ---------- contact / info ---------- */
+  .contact-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:start;
+  }
+  .info-card{
+    background:var(--paper);
+    border:3px solid var(--green-deep);
+    border-radius:22px;
+    padding:34px;
+  }
+  .info-card h3{ font-size:22px; color:var(--green-deep); margin-bottom:18px; }
+  .info-row{
+    display:flex; justify-content:space-between;
+    padding:10px 0;
+    border-bottom:1px dashed #cfc48a;
+    font-size:14.5px;
+  }
+  .info-row:last-child{ border-bottom:none; }
+  .info-row span:first-child{ font-weight:600; color:var(--green); }
+  .info-row span:last-child{ color:var(--ink); font-weight:500; }
+
+  .channels{ display:flex; flex-direction:column; gap:16px; }
+  .channel{
+    display:flex; align-items:center; gap:16px;
+    background:var(--paper);
+    border:3px solid var(--green-deep);
+    border-radius:18px;
+    padding:20px 22px;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .channel:hover{ transform:translate(-3px,-3px); box-shadow:5px 5px 0 var(--olive); }
+  .channel .ico{
+    width:48px; height:48px; border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .channel.wpp .ico{ background:#25D366; }
+  .channel.ig .ico{ background:linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7); }
+  .channel .ico svg{ width:24px; height:24px; fill:#fff; }
+  .channel h4{ font-family:'Baloo 2'; font-size:18px; color:var(--green-deep); }
+  .channel p{ font-size:13.5px; color:var(--green); margin-top:2px; }
+
+  /* ---------- footer ---------- */
+  footer{
+    background:var(--green-deep);
+    color:var(--cream);
+    padding:56px 0 30px;
+  }
+  .foot-top{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap:40px; flex-wrap:wrap;
+    padding-bottom:36px;
+    border-bottom:1px solid rgba(255,255,255,.15);
+  }
+  .foot-brand{ display:flex; align-items:center; gap:12px; }
+  .foot-brand img{ height:56px; }
+  .foot-brand span{ font-family:'Baloo 2'; font-size:20px; }
+  .foot-cols{ display:flex; gap:60px; flex-wrap:wrap; }
+  .foot-col h5{ font-family:'Baloo 2'; font-size:14px; letter-spacing:1px; text-transform:uppercase; color:#f3c88a; margin-bottom:14px; }
+  .foot-col a, .foot-col p{ display:block; font-size:14px; color:#d9e6d3; margin-bottom:8px; }
+  .foot-bottom{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:22px; font-size:13px; color:#a9c0a2; flex-wrap:wrap; gap:12px;
+  }
+
+  /* ---------- floating whatsapp ---------- */
+  .float-wpp{
+    position:fixed; bottom:24px; right:24px; z-index:60;
+    background:#25D366; color:#fff;
+    width:60px; height:60px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
+    border:3px solid #fff;
+    transition:transform .2s ease;
+  }
+  .float-wpp:hover{ transform:scale(1.08); }
+  .float-wpp svg{ width:28px; height:28px; fill:#fff; }
+
+  /* ---------- age gate ---------- */
+  .age-gate{
+    position:fixed; inset:0; z-index:200;
+    background:rgba(20,36,24,.92);
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+  }
+  .age-gate[hidden]{ display:none; }
+  .age-box{
+    background:var(--paper);
+    border:4px solid var(--green-deep);
+    border-radius:24px;
+    max-width:420px; width:100%;
+    padding:40px 32px;
+    text-align:center;
+    box-shadow:10px 10px 0 var(--orange);
+  }
+  .age-box .wordmark{ align-items:center; margin:0 auto 18px; }
+  .age-box .wordmark .top{ font-size:34px; }
+  .age-box p{ font-size:15px; color:var(--green); line-height:1.6; margin-bottom:26px; }
+  .age-box .fine{ font-size:12px; color:var(--olive); margin-top:18px; }
+  .age-actions{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+  /* ---------- catalog ---------- */
+  .filters{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:32px; }
+  .filter-pill{
+    padding:9px 18px; border-radius:100px; border:2px solid var(--green-deep);
+    font-family:'Baloo 2'; font-weight:700; font-size:13.5px; color:var(--green-deep);
+    cursor:pointer; background:transparent; transition:all .15s ease;
+  }
+  .filter-pill.active, .filter-pill:hover{ background:var(--green-deep); color:var(--cream); }
+  .product-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
+  }
+  .product-card{
+    background:var(--paper); border:3px solid var(--green-deep); border-radius:18px;
+    padding:20px; display:flex; flex-direction:column;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .product-card:hover{ transform:translateY(-4px); box-shadow:5px 6px 0 var(--olive); }
+  .product-icon{
+    width:100%; aspect-ratio:1/1; border-radius:14px;
+    background:var(--cream-deep); display:flex; align-items:center; justify-content:center;
+    font-size:44px; margin-bottom:14px;
+  }
+  .product-tag{ font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--orange-deep); }
+  .product-card h4{ font-family:'Baloo 2'; font-size:17px; color:var(--green-deep); margin-top:6px; line-height:1.2; }
+  .product-card .desc{ font-size:13px; color:var(--green); margin-top:6px; line-height:1.5; flex:1; }
+  .product-price{ font-family:'Baloo 2'; font-size:19px; color:var(--green-deep); margin-top:12px; }
+  .product-buy{
+    margin-top:12px; display:flex; align-items:center; justify-content:center; gap:6px;
+    padding:10px; border-radius:100px; background:var(--orange); color:var(--paper);
+    font-family:'Baloo 2'; font-weight:700; font-size:13.5px; border:2px solid var(--orange-deep);
+    cursor:pointer; text-align:center;
+  }
+  .product-buy:hover{ background:var(--orange-deep); }
+  .catalog-empty{ font-size:15px; color:var(--green); padding:30px; text-align:center; }
+
+  /* ---------- admin ---------- */
+  .admin-link{ font-size:11px; color:#7d9270; opacity:.6; }
+  .admin-link:hover{ opacity:1; }
+  .admin-overlay{
+    position:fixed; inset:0; z-index:300; background:var(--cream);
+    overflow-y:auto;
+  }
+  .admin-overlay[hidden]{ display:none; }
+  .admin-top{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px; border-bottom:3px solid var(--green-deep); background:var(--paper);
+  }
+  .admin-shell{ max-width:1000px; margin:0 auto; padding:40px 32px 80px; }
+  .admin-login{
+    max-width:380px; margin:80px auto; background:var(--paper); border:3px solid var(--green-deep);
+    border-radius:20px; padding:36px; text-align:center;
+  }
+  .admin-login input{
+    width:100%; padding:12px 14px; border-radius:10px; border:2px solid var(--olive);
+    font-size:15px; margin:16px 0; font-family:'Work Sans';
+  }
+  .stat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:40px; }
+  .stat-card{
+    background:var(--paper); border:3px solid var(--green-deep); border-radius:16px; padding:20px;
+  }
+  .stat-card .num{ font-family:'Baloo 2'; font-size:30px; color:var(--orange-deep); }
+  .stat-card .label{ font-size:12.5px; color:var(--green); font-weight:600; margin-top:4px; }
+  .admin-section-title{ font-family:'Baloo 2'; font-size:20px; color:var(--green-deep); margin:36px 0 16px; }
+  .top-products{ display:flex; flex-direction:column; gap:8px; margin-bottom:10px; }
+  .top-product-row{ display:flex; justify-content:space-between; font-size:14px; background:var(--paper); border:2px solid var(--olive); border-radius:10px; padding:10px 14px; }
+  .product-form{
+    background:var(--paper); border:3px solid var(--green-deep); border-radius:18px; padding:24px;
+    display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:30px;
+  }
+  .product-form label{ font-size:12.5px; font-weight:700; color:var(--green-deep); display:block; margin-bottom:5px; }
+  .product-form input, .product-form select, .product-form textarea{
+    width:100%; padding:10px 12px; border-radius:8px; border:2px solid var(--olive); font-family:'Work Sans'; font-size:14px;
+  }
+  .product-form .full{ grid-column:1 / -1; }
+  .admin-table{ width:100%; border-collapse:collapse; }
+  .admin-table th{ text-align:left; font-size:12px; text-transform:uppercase; color:var(--olive); padding:8px 10px; }
+  .admin-table td{ background:var(--paper); padding:10px; font-size:13.5px; border-top:1px solid var(--cream-deep); }
+  .admin-table tr td:first-child{ border-radius:10px 0 0 10px; }
+  .admin-table tr td:last-child{ border-radius:0 10px 10px 0; }
+  .row-actions{ display:flex; gap:8px; }
+  .btn-mini{ padding:5px 12px; border-radius:100px; font-size:12px; font-weight:700; font-family:'Baloo 2'; cursor:pointer; border:2px solid var(--green-deep); background:transparent; color:var(--green-deep); }
+  .btn-mini.danger{ border-color:#b23a3a; color:#b23a3a; }
+  .btn-mini:hover{ opacity:.7; }
+  .status-pill{ padding:4px 10px; border-radius:100px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; }
+  .status-pendente{ background:#f3d9a0; color:#7a4e00; }
+  .status-confirmada{ background:#c9e3bd; color:#1d3a24; }
+  .status-cancelada{ background:#e8c4c4; color:#7a1d1d; }
+  .stat-card.highlight{ background:var(--green-deep); border-color:var(--green-deep); }
+  .stat-card.highlight .num{ color:var(--orange); }
+  .stat-card.highlight .label{ color:var(--cream); }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:980px){
+    .hero{ grid-template-columns:1fr; padding-top:50px; }
+    .hero-art{ order:-1; max-width:340px; margin:0 auto; }
+    .cat-grid{ grid-template-columns:repeat(2,1fr); }
+    .steps{ grid-template-columns:1fr; }
+    .lib-grid{ grid-template-columns:1fr; }
+    .contact-grid{ grid-template-columns:1fr; }
+    nav.links{ display:none; }
+  }
+  @media (max-width:560px){
+    .cat-grid{ grid-template-columns:1fr; }
+    .nav-cta .btn-outline{ display:none; }
+    .foot-top{ flex-direction:column; }
+  }
+</style>
+</head>
+<body>
+
+<div id="ageGate" class="age-gate" hidden>
+  <div class="age-box">
+    <div class="wordmark"><span class="top">Mary Jane</span><span class="bottom">Head Shop</span></div>
+    <p>Este site tem conteúdo relacionado a acessórios de tabacaria e cultura cannábica. Para continuar, confirme que você tem 18 anos ou mais.</p>
+    <div class="age-actions">
+      <button class="btn btn-solid" onclick="MJ.confirmAge(true)">Sim, tenho 18+</button>
+      <button class="btn btn-outline" onclick="MJ.confirmAge(false)">Não tenho</button>
+    </div>
+    <div class="fine">Ao confirmar, você concorda com nossos termos de uso.</div>
+  </div>
+</div>
+
+<div id="ageBlocked" class="age-gate" hidden>
+  <div class="age-box">
+    <div class="wordmark"><span class="top">Mary Jane</span><span class="bottom">Head Shop</span></div>
+    <p>Que pena! Este site é destinado exclusivamente a maiores de 18 anos.</p>
+  </div>
+</div>
+
+<div id="topo" class="pattern-strip"></div>
+
+<header>
+  <div class="nav">
+    <div class="brand">
+      <div class="wordmark wordmark-sm">
+        <span class="top">Mary Jane</span>
+        <span class="bottom">Head Shop</span>
+      </div>
+    </div>
+    <nav class="links">
+      <a href="#topo" class="nav-btn">Início</a>
+      <a href="#produtos" class="nav-btn">Catálogo</a>
+      <a href="#biblioteca" class="nav-btn">Biblioteca Cannábica</a>
+      <a href="#como-comprar" class="nav-btn">Como comprar</a>
+      <a href="#contato" class="nav-btn">Contato</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-outline" href="#contato">Horários</a>
+      <a class="btn btn-solid" href="https://wa.me/5511900000000" target="_blank" rel="noopener">Chamar no Whats</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="eyebrow"><span class="dot"></span> Headshop · Tabacaria · Lifestyle</div>
+    <h1>Cultivando seu <span>ritual</span> de bem-estar</h1>
+    <p class="lead">Sedas, boladores, acessórios de tabacaria e presentes lifestyle escolhidos com curadoria. Sem loja virtual complicada: você vê, chama no Whats e combina a entrega.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-solid" href="https://wa.me/5511900000000" target="_blank" rel="noopener">Comprar pelo WhatsApp</a>
+      <a class="btn btn-outline" href="https://instagram.com/bancamaryjane" target="_blank" rel="noopener">Ver catálogo no Instagram</a>
+    </div>
+  </div>
+  <div class="hero-art">
+    <div class="wordmark wordmark-lg"><span class="top">Mary Jane</span><span class="bottom">Head Shop</span></div>
+  </div>
+</section>
+
+<div class="pattern-strip flip"></div>
+
+<!-- CATÁLOGO -->
+<section id="produtos">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow"><span class="dot"></span> Catálogo</div>
+      <h2>Uma banca completa pro seu ritual</h2>
+      <p>Da seda ao presente pra alguém especial — tudo com curadoria própria, sem enrolação. Escolha, chame no WhatsApp e combine a entrega.</p>
+    </div>
+    <div class="filters" id="catalogFilters"></div>
+    <div class="product-grid" id="catalogGrid">
+      <div class="catalog-empty">Carregando catálogo...</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO COMPRAR -->
+<div class="how-wrap" id="como-comprar">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow"><span class="dot"></span> Sem complicação</div>
+      <h2>Como comprar</h2>
+      <p>Nada de carrinho travando. Três passos e seu pedido já tá a caminho.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-mark">1</div>
+        <h3>Veja o catálogo</h3>
+        <p>Navegue pelas novidades e produtos fixos direto no nosso Instagram.</p>
+      </div>
+      <div class="step">
+        <div class="step-mark">2</div>
+        <h3>Chame no WhatsApp</h3>
+        <p>Manda o print ou o nome do produto e a gente confirma disponibilidade na hora.</p>
+      </div>
+      <div class="step">
+        <div class="step-mark">3</div>
+        <h3>Combine e receba</h3>
+        <p>Retirada na banca ou combinamos a entrega — do seu jeito.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BIBLIOTECA CANNABICA -->
+<section id="biblioteca">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow"><span class="dot"></span> Conteúdo</div>
+      <h2>Biblioteca Cannábica</h2>
+      <p>Cultura, cuidado e curiosidades pra quem quer entender o universo antes de comprar.</p>
+    </div>
+    <div class="lib-grid">
+      <div class="lib-card feature">
+        <div>
+          <div class="lib-tag">Em destaque</div>
+          <h3>Como escolher sua primeira seda</h3>
+          <p>Um guia rápido sobre tamanhos, papéis e o que muda no seu ritual.</p>
+        </div>
+        <div class="lib-more">Ler no Instagram →</div>
+      </div>
+      <div class="lib-card">
+        <div>
+          <div class="lib-tag">Cuidados</div>
+          <h3>Limpeza de acessórios</h3>
+          <p>O básico pra manter seus utensílios sempre em ordem.</p>
+        </div>
+        <div class="lib-more">Ler no Instagram →</div>
+      </div>
+      <div class="lib-card">
+        <div>
+          <div class="lib-tag">Cultura</div>
+          <h3>De onde vem o bolador Sadhu</h3>
+          <p>A origem de um dos itens mais queridos da banca.</p>
+        </div>
+        <div class="lib-more">Ler no Instagram →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pattern-strip"></div>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow"><span class="dot"></span> Fale com a gente</div>
+      <h2>Visite ou chame a banca</h2>
+      <p>Estamos em Pinheiros, São Paulo. Sem loja virtual — todo pedido fecha no WhatsApp ou Instagram.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="info-card">
+        <h3>Horários</h3>
+        <div class="info-row"><span>Segunda</span><span>Fechado</span></div>
+        <div class="info-row"><span>Terça a Sexta</span><span>15:00 – 21:00</span></div>
+        <div class="info-row"><span>Sábado</span><span>15:00 – 21:00</span></div>
+        <div class="info-row"><span>Domingo</span><span>12:00 – 18:00</span></div>
+      </div>
+      <div class="channels">
+        <a class="channel wpp" href="https://wa.me/5511900000000" target="_blank" rel="noopener">
+          <div class="ico">
+            <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.4.1-.2 0-.3 0-.5s-.7-1.7-1-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.3-.3.3-1 1-1 2.4s1.1 2.8 1.2 3c.1.2 2.2 3.4 5.4 4.7.8.3 1.3.5 1.8.6.8.2 1.5.2 2 .1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.1-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 5L2 22l5.2-1.4c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3C4.1 14.9 3.7 13.5 3.7 12c0-4.6 3.7-8.3 8.3-8.3s8.3 3.7 8.3 8.3-3.7 8.2-8.3 8.2z"/></svg>
+          </div>
+          <div>
+            <h4>WhatsApp</h4>
+            <p>Pedidos, dúvidas e disponibilidade</p>
+          </div>
+        </a>
+        <a class="channel ig" href="https://instagram.com/bancamaryjane" target="_blank" rel="noopener">
+          <div class="ico">
+            <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.9.3 2.3.5.6.2 1 .5 1.4.9.4.4.7.9.9 1.4.2.4.4 1.1.5 2.3.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.9-.5 2.3-.2.6-.5 1-.9 1.4-.4.4-.9.7-1.4.9-.4.2-1.1.4-2.3.5-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.9-.3-2.3-.5-.6-.2-1-.5-1.4-.9-.4-.4-.7-.9-.9-1.4-.2-.4-.4-1.1-.5-2.3-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c.1-1.2.3-1.9.5-2.3.2-.6.5-1 .9-1.4.4-.4.9-.7 1.4-.9.4-.2 1.1-.4 2.3-.5 1.3-.1 1.7-.1 4.9-.1zM12 0C8.7 0 8.3 0 7 .1c-1.3.1-2.2.3-3 .6-.8.3-1.5.7-2.2 1.4C1.1 2.8.7 3.5.4 4.3c-.3.8-.5 1.7-.6 3C-.3 8.6-.3 9-0.3 12.3s0 3.7.1 5c.1 1.3.3 2.2.6 3 .3.8.7 1.5 1.4 2.2.7.7 1.4 1.1 2.2 1.4.8.3 1.7.5 3 .6 1.3.1 1.7.1 5 .1s3.7 0 5-.1c1.3-.1 2.2-.3 3-.6.8-.3 1.5-.7 2.2-1.4.7-.7 1.1-1.4 1.4-2.2.3-.8.5-1.7.6-3 .1-1.3.1-1.7.1-5s0-3.7-.1-5c-.1-1.3-.3-2.2-.6-3-.3-.8-.7-1.5-1.4-2.2C21.2 1.1 20.5.7 19.7.4c-.8-.3-1.7-.5-3-.6C15.4 0 15 0 12 0z"/><path d="M12 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM19.8 5.6a1.4 1.4 0 1 1-2.8 0 1.4 1.4 0 0 1 2.8 0z"/></svg>
+          </div>
+          <div>
+            <h4>Instagram</h4>
+            <p>Catálogo, novidades e biblioteca cannábica</p>
+          </div>
+        </a>
+        <div class="info-card">
+          <h3>Endereço</h3>
+          <p style="font-size:14.5px; color:var(--green); line-height:1.6;">Pinheiros, São Paulo — SP<br>Endereço completo enviado por WhatsApp na hora de combinar retirada ou entrega.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="wordmark wordmark-sm wordmark-footer"><span class="top">Mary Jane</span><span class="bottom">Head Shop</span></div>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h5>Navegue</h5>
+          <a href="#produtos">Produtos</a>
+          <a href="#biblioteca">Biblioteca Cannábica</a>
+          <a href="#como-comprar">Como comprar</a>
+        </div>
+        <div class="foot-col">
+          <h5>Fale com a gente</h5>
+          <a href="https://wa.me/5511900000000" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="https://instagram.com/bancamaryjane" target="_blank" rel="noopener">Instagram</a>
+        </div>
+        <div class="foot-col">
+          <h5>Horários</h5>
+          <p>Ter–Sáb · 15h–21h</p>
+          <p>Dom · 12h–18h</p>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Banca Mary Jane Head Shop — Pinheiros, São Paulo</span>
+      <span>Feito com ritual e cuidado 🌿 · <a class="admin-link" href="admin.html" target="_blank" rel="noopener">área da equipe</a></span>
+    </div>
+  </div>
+</footer>
+
+
+<a class="float-wpp" href="https://wa.me/5511900000000" target="_blank" rel="noopener" aria-label="Chamar no WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.4.1-.2 0-.3 0-.5s-.7-1.7-1-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.3-.3.3-1 1-1 2.4s1.1 2.8 1.2 3c.1.2 2.2 3.4 5.4 4.7.8.3 1.3.5 1.8.6.8.2 1.5.2 2 .1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.1-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 5L2 22l5.2-1.4c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3C4.1 14.9 3.7 13.5 3.7 12c0-4.6 3.7-8.3 8.3-8.3s8.3 3.7 8.3 8.3-3.7 8.2-8.3 8.2z"/></svg>
+</a>
+
+<script>
+const API_BASE = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
+  ? "http://localhost:4000"   // rodando local (server.js)
+  : "";                        // em produção no Vercel, API e site ficam no mesmo domínio
+
+const MJ = (() => {
+  const CATEGORIES = ["Tabacaria","Acessórios","Lifestyle","Presentes"];
+  const WHATS_NUMBER = "5511900000000";
+
+  let products = [];
+  let activeFilter = "Todos";
+
+  async function api(path, options = {}) {
+    const res = await fetch(`${API_BASE}${path}`, {
+      ...options,
+      headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+    });
+    if (!res.ok) throw new Error(`Erro na API: ${res.status}`);
+    if (res.status === 204) return null;
+    return res.json();
+  }
+
+  function money(v){ return "R$ " + Number(v).toFixed(2).replace(".", ","); }
+
+  async function loadProducts(){
+    try{
+      products = await api("/api/products");
+    }catch(e){
+      console.error("Não foi possível carregar o catálogo:", e);
+      products = [];
+    }
+  }
+
+  function renderFilters(){
+    const el = document.getElementById("catalogFilters");
+    const opts = ["Todos", ...CATEGORIES];
+    el.innerHTML = opts.map(c =>
+      `<button class="filter-pill ${c===activeFilter?'active':''}" onclick="MJ.setFilter('${c}')">${c}</button>`
+    ).join("");
+  }
+
+  function renderGrid(){
+    const grid = document.getElementById("catalogGrid");
+    const list = activeFilter === "Todos" ? products : products.filter(p => p.category === activeFilter);
+    if(!list.length){
+      grid.innerHTML = `<div class="catalog-empty">${products.length ? "Nenhum produto nessa categoria ainda." : "Catálogo indisponível no momento — tente novamente em instantes."}</div>`;
+      return;
+    }
+    grid.innerHTML = list.map(p => `
+      <div class="product-card">
+        <div class="product-icon">${p.icon || "🌿"}</div>
+        <div class="product-tag">${p.category}</div>
+        <h4>${p.name}</h4>
+        <div class="desc">${p.description || ""}</div>
+        <div class="product-price">${money(p.price)}</div>
+        <div class="product-buy" onclick="MJ.buy('${p.id}')">Comprar no WhatsApp</div>
+      </div>
+    `).join("");
+  }
+
+  function setFilter(c){
+    activeFilter = c;
+    renderFilters();
+    renderGrid();
+  }
+
+  async function trackProductView(productId){
+    try{ await api("/api/track", { method:"POST", body: JSON.stringify({ type:"product_view", productId }) }); }
+    catch(e){ /* falha silenciosa de métrica não deve travar a compra */ }
+  }
+
+  async function buy(id){
+    const p = products.find(x => x.id === id);
+    if(!p) return;
+    trackProductView(id);
+    try{
+      await api("/api/orders", { method:"POST", body: JSON.stringify({ productId: id }) });
+    }catch(e){
+      console.error("Não foi possível registrar o pedido:", e);
+    }
+    const msg = encodeURIComponent(`Oi! Vim pelo site e quero saber sobre: ${p.name}`);
+    window.open(`https://wa.me/${WHATS_NUMBER}?text=${msg}`, "_blank");
+  }
+
+  // ---- age gate (localStorage — funciona em qualquer hospedagem) ----
+  function initAgeGate(){
+    const verified = localStorage.getItem("mj_age_verified");
+    if(!verified){
+      document.getElementById("ageGate").hidden = false;
+    }
+  }
+  function confirmAge(isAdult){
+    if(isAdult){
+      localStorage.setItem("mj_age_verified", "true");
+      document.getElementById("ageGate").hidden = true;
+    } else {
+      document.getElementById("ageGate").hidden = true;
+      document.getElementById("ageBlocked").hidden = false;
+    }
+  }
+
+  async function trackPageview(){
+    try{ await api("/api/track", { method:"POST", body: JSON.stringify({ type:"pageview" }) }); }
+    catch(e){ /* falha silenciosa */ }
+  }
+
+  async function init(){
+    initAgeGate();
+    await loadProducts();
+    renderFilters();
+    renderGrid();
+    trackPageview();
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+
+  return { setFilter, buy, confirmAge };
+})();
+</script>
+
+</body>
+</html>
