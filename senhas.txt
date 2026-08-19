@@ -1,8 +1,0 @@
-<<<<<<< HEAD
-Supabase senha: 771520WILLIAN#
-
-=======
-Supabase senha: 771520WILLIAN#
-
->>>>>>> bad5ba182502f09690a251d4e84104188ea723ab
-postgresql://postgres.qvmqaagtjsfuuzwyktui:771520WILLIAN#@aws-0-sa-east-1.pooler.supabase.com:6543/postgres
